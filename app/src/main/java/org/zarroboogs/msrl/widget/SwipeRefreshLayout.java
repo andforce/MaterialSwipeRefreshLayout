@@ -1,4 +1,4 @@
-package org.zarroboogs.msrl;
+package org.zarroboogs.msrl.widget;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,9 +17,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
 
+import org.zarroboogs.msrl.R;
 import org.zarroboogs.msrl.soundplayer.SoundPlayer;
-import org.zarroboogs.msrl.widget.CircleImageView;
-import org.zarroboogs.msrl.widget.MaterialProgressDrawable;
 
 
 /**

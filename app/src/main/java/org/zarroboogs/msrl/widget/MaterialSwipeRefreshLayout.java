@@ -1,4 +1,4 @@
-package org.zarroboogs.msrl;
+package org.zarroboogs.msrl.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,7 +9,7 @@ import android.view.ViewConfiguration;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
-public class RefreshLayout extends SwipeRefreshLayout {
+public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private int mTouchSlop;
     private ListView mListView;
@@ -22,11 +22,11 @@ public class RefreshLayout extends SwipeRefreshLayout {
     private boolean isLoading = false;
 
 
-    public RefreshLayout(Context context) {
+    public MaterialSwipeRefreshLayout(Context context) {
         this(context, null);
     }
 
-    public RefreshLayout(Context context, AttributeSet attrs) {
+    public MaterialSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
