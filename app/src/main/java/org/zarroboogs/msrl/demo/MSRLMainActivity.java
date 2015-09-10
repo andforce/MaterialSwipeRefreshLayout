@@ -28,7 +28,6 @@ public class MSRLMainActivity extends ActionBarActivity {
 
         mRefreshLayout = (MaterialSwipeRefreshLayout) findViewById(R.id.demo_msrl);
         mListView = (ListView) findViewById(R.id.demo_list_view);
-        mRefreshLayout.setFooterView(R.layout.listview_footer);
 
         values = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
@@ -62,7 +61,6 @@ public class MSRLMainActivity extends ActionBarActivity {
                     public void run() {
                         values.add("Swipe Up to Load More " + values.size());
                         mArrayAdapter.notifyDataSetChanged();
-                        mRefreshLayout.setLoading(false);
                     }
                 }, 2000);
             }

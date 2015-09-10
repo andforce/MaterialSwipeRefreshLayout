@@ -9,6 +9,8 @@ import android.view.ViewConfiguration;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
+import org.zarroboogs.msrl.R;
+
 public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private int mTouchSlop;
@@ -51,10 +53,6 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     public void noMore() {
         isEnableLoadmore = false;
         if (mListViewFooter != null){
-            View view = mListViewFooter.findViewById(R.id.noMoreTips);
-            view.setVisibility(VISIBLE);
-            View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
-            progress.setVisibility(INVISIBLE);
             mListViewFooter.setVisibility(GONE);
         }
     }
@@ -162,7 +160,6 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private void showMaterialProgressBar(){
         if (mListViewFooter != null){
-            mListViewFooter.findViewById(R.id.loadMoreProgressBar).setVisibility(VISIBLE);
         }
     }
 
