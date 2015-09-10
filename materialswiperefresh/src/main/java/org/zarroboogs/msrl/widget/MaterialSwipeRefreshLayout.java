@@ -15,12 +15,14 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     private ListView mListView;
     private OnRefreshLoadMoreListener mOnRefreshLoadMoreListener;
     private View mListViewFooter;
+    private boolean isEnableLoadmore = true;
 
     private int mYDown;
     private int mLastY;
 
     private boolean isLoading = false;
-
+    private boolean isOnlyPullRefersh = false;
+    private boolean isOnlyLoadMore = false;
 
     public MaterialSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -33,16 +35,12 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     //set the footer of the ListView with a ProgressBar in it
     public void setFooterView(int layoutId) {
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        mListViewFooter = LayoutInflater.from(getContext()).inflate(layoutId, null,false);
+        mListViewFooter = LayoutInflater.from(getContext()).inflate(layoutId, null, false);
         ensureListView();
         mListView.addFooterView(mListViewFooter);
         mListView.setFooterDividersEnabled(false);
     }
 
-    @Override
-    public void setRefreshing(boolean refreshing) {
-        super.setRefreshing(refreshing);
-    }
 
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -50,8 +48,24 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
         ensureListView();
     }
 
+    public void noMore() {
+        isEnableLoadmore = false;
+        if (mListViewFooter != null){
+            View view = mListViewFooter.findViewById(R.id.noMoreTips);
+            view.setVisibility(VISIBLE);
+            View progress = mListViewFooter.findViewById(R.id.loadMoreProgressBar);
+            progress.setVisibility(INVISIBLE);
+            mListViewFooter.setVisibility(GONE);
+        }
+    }
+
+
+    public void enableLoadmoew() {
+        isEnableLoadmore = true;
+    }
+
     private void ensureListView() {
-        if (mListView == null){
+        if (mListView == null) {
             for (int i = 0; i < getChildCount(); i++) {
                 View child = getChildAt(i);
                 if (child instanceof ListView) {
@@ -59,11 +73,36 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
                     break;
                 }
             }
+            setColorSchemeResources(R.color.google_blue,
+                    R.color.google_green,
+                    R.color.google_red,
+                    R.color.google_yellow);
+        }
+    }
+
+    public void setOnlyPullRefersh(){
+        this.isOnlyPullRefersh = true;
+    }
+
+    public void setOnlyLoadMore(){
+        this.isOnlyLoadMore = true;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (isOnlyLoadMore){
+            return false;
+        }else {
+            return super.onInterceptTouchEvent(ev);
         }
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        if (isOnlyPullRefersh){
+            super.dispatchTouchEvent(event);
+            return true;
+        }
         final int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
@@ -112,38 +151,65 @@ public class MaterialSwipeRefreshLayout extends SwipeRefreshLayout {
     }
 
     private void loadMore() {
+        if (!isEnableLoadmore) {
+            return;
+        }
         if (mOnRefreshLoadMoreListener != null) {
-            setLoading(true);
+            setLoadingMore(true);
             mOnRefreshLoadMoreListener.onLoadMore();
         }
     }
 
-    public void setLoading(boolean loading) {
+    private void showMaterialProgressBar(){
+        if (mListViewFooter != null){
+            mListViewFooter.findViewById(R.id.loadMoreProgressBar).setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void setRefreshing(boolean refreshing) {
+        super.setRefreshing(refreshing);
+    }
+
+    public void setLoadingMore(boolean loading) {
         isLoading = loading;
-        if (isLoading) {
-            if (isRefreshing()) setRefreshing(false);
-            if (mListView.getFooterViewsCount() == 0) {
+        if (loading) {
+
+            if (isRefreshing()){
+                return;
+            }
+            if (mListView.getFooterViewsCount() == 0){
                 mListView.addFooterView(mListViewFooter);
-                mListView.setSelection(mListView.getAdapter().getCount() - 1);
-            } else {
-                mListViewFooter.setVisibility(VISIBLE);
-                //mListView.addFooterView(mListViewFooter);
             }
+            mListView.setSelection(mListView.getAdapter().getCount() - 1);
+            showMaterialProgressBar();
+//            if (isRefreshing()) {
+//                setRefreshing(false);
+//            }
+//            if (mListView.getFooterViewsCount() == 0) {
+//                mListView.addFooterView(mListViewFooter);
+//                mListView.setSelection(mListView.getAdapter().getCount() - 1);
+//            } else {
+//                mListViewFooter.setVisibility(VISIBLE);
+//                showMaterialProgressBar();
+//                //mListView.addFooterView(mListViewFooter);
+//            }
         } else {
-            if (mListView.getAdapter() instanceof HeaderViewListAdapter) {
-                mListView.removeFooterView(mListViewFooter);
-            } else {
-                mListViewFooter.setVisibility(View.GONE);
-            }
+//            if (mListView.getAdapter() instanceof HeaderViewListAdapter) {
+//                mListView.removeFooterView(mListViewFooter);
+//            } else {
+//                mListViewFooter.setVisibility(View.GONE);
+//            }
+            mListView.removeFooterView(mListViewFooter);
             mYDown = 0;
             mLastY = 0;
         }
     }
 
-    public static interface OnRefreshLoadMoreListener {
-        public void onRefresh();
+    public interface OnRefreshLoadMoreListener {
+        void onRefresh();
 
-        public void onLoadMore();
+        void onLoadMore();
     }
 
     public void setOnRefreshLoadMoreListener(OnRefreshLoadMoreListener listener) {

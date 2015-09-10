@@ -118,13 +118,21 @@ public class SwipeRefreshLayout extends ViewGroup {
     private SoundPlayer.Player mSoundPlayer;
 
     private boolean mSoundPlayed = false;
+    private boolean mEnableSount = true;
+
+
+    public void setEnableSount(boolean enable) {
+        this.mEnableSount = enable;
+    }
 
     private void playFinishedSound() {
+        if (!mEnableSount) return;
         mSoundPlayer.play(R.raw.refresh_finished);
         mSoundPlayed = false;
     }
 
     private void playStartSound() {
+        if (!mEnableSount) return;
         if (!mSoundPlayed) {
             mSoundPlayer.play(R.raw.refresh_start);
             mSoundPlayed = true;
