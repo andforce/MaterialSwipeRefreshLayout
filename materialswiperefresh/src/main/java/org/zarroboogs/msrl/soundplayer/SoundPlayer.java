@@ -1,7 +1,6 @@
 package org.zarroboogs.msrl.soundplayer;
 
 
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -23,7 +22,7 @@ public class SoundPlayer {
     }
 
     public static Player getPlayer(Context context) {
-    	return new SoundPoolPlayer(context);
+        return new SoundPoolPlayer(context);
     }
 
     public static int getAudioTypeForSoundPool() {
@@ -41,7 +40,7 @@ public class SoundPlayer {
         private static final int NUM_SOUND_STREAMS = 1;
 
         private static final int[] SOUND_RES = { // Soundtrack res IDs.
-        	R.raw.refresh_finished,R.raw.refresh_start};
+                R.raw.refresh_finished, R.raw.refresh_start};
 
         // ID returned by load() should be non-zero.
         private static final int ID_NOT_LOADED = 0;
@@ -93,11 +92,11 @@ public class SoundPlayer {
 
             int index = ID_NOT_LOADED;
             for (int i = 0; i < SOUND_RES.length; i++) {
-				if (resID == SOUND_RES[i]) {
-					index = i;
-				}
-			}
-            
+                if (resID == SOUND_RES[i]) {
+                    index = i;
+                }
+            }
+
             if (mSoundIDs[index] == ID_NOT_LOADED) {
                 // Not loaded yet, load first and then play when the loading is complete.
                 mSoundIDs[index] = mSoundPool.load(mContext, SOUND_RES[index], 1);

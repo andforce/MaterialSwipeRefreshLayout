@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.zarroboogs.msrl" >
+    package="org.zarroboogs.msrl.demo" >
 
     <application
         android:allowBackup="true"

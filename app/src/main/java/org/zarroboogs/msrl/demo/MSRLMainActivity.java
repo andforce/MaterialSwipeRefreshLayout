@@ -1,4 +1,4 @@
-package org.zarroboogs.msrl;
+package org.zarroboogs.msrl.demo;
 
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.zarroboogs.msrl.widget.SwipeRefreshLayout;
+
 import org.zarroboogs.msrl.widget.MaterialSwipeRefreshLayout;
 
 import java.util.ArrayList;
